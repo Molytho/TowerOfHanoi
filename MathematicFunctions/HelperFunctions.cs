@@ -30,6 +30,8 @@
         /// <returns>n nCr k</returns>
         public static ulong BinomialCoefficent(ulong n, ulong k)
         {
+            if(k > n) //When k bigger than n define BK as 0
+                return 0;
             if(2 * k > n) //When k is over the symetrical axis of pascals triangle
                 k = n - k; //Then set k to its symetrical opponent
             if(k == 0) //When k is 0

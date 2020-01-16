@@ -21,7 +21,7 @@ namespace Molytho.TowerOfHanoi
         public static async Task<MoveCollection> CalculateMoveSequenceAsync(int pegCount, int diskCount, CancellationToken token)
         {
             ulong unsignedMoveCount = MathematicFunctions.MoveCount((ulong)pegCount, (ulong)diskCount);
-            var moveCount = unsignedMoveCount <= int.MaxValue ? (int)unsignedMoveCount : throw new TooManyMovesException();
+            var moveCount = unsignedMoveCount <= int.MaxValue ? (int)unsignedMoveCount : throw new TooManyMovesException(unsignedMoveCount);
             var moveCollection = new MoveCollection(moveCount);
             await CalculateMoveSequenceAsync(pegCount, diskCount, GeneratePegs(pegCount), 0, pegCount - 1, token, moveCollection, moveCount);
             return moveCollection;

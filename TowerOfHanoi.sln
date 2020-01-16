@@ -9,8 +9,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MathematicFunctions", "Math
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestConsole", "TestConsole\TestConsole.csproj", "{0ADD88DE-33A5-4AD8-9008-2B820EDBA651}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MoveCalculationOld", "MoveCalculationOld\MoveCalculationOld.csproj", "{80D7E6B0-0208-4831-8580-C71F453C3A94}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -43,14 +41,6 @@ Global
 		{0ADD88DE-33A5-4AD8-9008-2B820EDBA651}.Release|Any CPU.Build.0 = Release|Any CPU
 		{0ADD88DE-33A5-4AD8-9008-2B820EDBA651}.Release|x64.ActiveCfg = Release|x64
 		{0ADD88DE-33A5-4AD8-9008-2B820EDBA651}.Release|x64.Build.0 = Release|x64
-		{80D7E6B0-0208-4831-8580-C71F453C3A94}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{80D7E6B0-0208-4831-8580-C71F453C3A94}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{80D7E6B0-0208-4831-8580-C71F453C3A94}.Debug|x64.ActiveCfg = Debug|x64
-		{80D7E6B0-0208-4831-8580-C71F453C3A94}.Debug|x64.Build.0 = Debug|x64
-		{80D7E6B0-0208-4831-8580-C71F453C3A94}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{80D7E6B0-0208-4831-8580-C71F453C3A94}.Release|Any CPU.Build.0 = Release|Any CPU
-		{80D7E6B0-0208-4831-8580-C71F453C3A94}.Release|x64.ActiveCfg = Release|x64
-		{80D7E6B0-0208-4831-8580-C71F453C3A94}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

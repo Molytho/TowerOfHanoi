@@ -17,6 +17,11 @@ template <typename N, typename T> std::future<MoveCollection<T>*> CalculateMoveS
 }
 template <typename N, typename T> MoveCollection<T>* CalculateMoveSequence(T pegCount, N diskCount)
 {
+	if (pegCount < 3)
+		throw std::invalid_argument("Less than 3 pegs are senseless");
+	if (diskCount == 0)
+		throw std::invalid_argument("You need one move at least");
+
 	uint64_t moveCount = CalculateMoveCount(pegCount, diskCount);
 	if (moveCount > size_t(-1))
 	{
@@ -53,17 +58,25 @@ template <typename N, typename T> TowerHeights<N, T>* GetTowerHeights(T pegCount
 	(*ret)(0, pegCount - 2) = N(1);
 	(*ret)(1, pegCount - 2) = N(1);
 
-	for (N i = 1; i < pegCount - 1; i++)
+	try
 	{
-		uint64_t n = increment - 2 + i;
-		uint64_t k = i;
+		for (N i = 1; i < pegCount - 1; i++)
+		{
+			uint64_t n = increment - 2 + i;
+			uint64_t k = i;
 
-		uint64_t previousMax = (*ret)(0, N(pegCount) - 1 - i);
-		throwIfMultiplyOverflow(previousMax, n);
-		(*ret)(0, pegCount - 2 - i) = throwIfCastOverflow<uint64_t, N>(previousMax * n / k);
+			uint64_t previousMax = (*ret)(0, N(pegCount) - 1 - i);
+			throwIfMultiplyOverflow(previousMax, n);
+			(*ret)(0, pegCount - 2 - i) = throwIfCastOverflow<uint64_t, N>(previousMax * n / k);
 
-		uint64_t previousMin = (*ret)(1, N(pegCount) - 1 - i);
-		(*ret)(1, pegCount - 2 - i) = throwIfCastOverflow<uint64_t, N>(previousMin * (n - 1) / k);
+			uint64_t previousMin = (*ret)(1, N(pegCount) - 1 - i);
+			(*ret)(1, pegCount - 2 - i) = throwIfCastOverflow<uint64_t, N>(previousMin * (n - 1) / k);
+		}
+	}
+	catch (const std::exception &)
+	{
+		delete ret;
+		throw;
 	}
 
 	return ret;
@@ -99,7 +112,17 @@ template <typename N, typename T> std::future<void> Calculate3PegAsync(N diskCou
 
 template <typename N, typename T> void Calculate4PlusPeg(T pegCount, N diskCount, Pegs<T>& pegs, T startPeg, T endPeg, MoveCollection<T>* moveCollection, size_t moveCount)
 {
-	TowerHeights<N, T>* towerHeights = GetTowerHeights<N, T>(pegCount, CalculateIncrement(pegCount, diskCount));
+	TowerHeights<N, T>* towerHeights;
+	try
+	{
+		towerHeights = GetTowerHeights<N, T>(pegCount, CalculateIncrement(pegCount, diskCount));
+	}
+	catch (const std::exception &)
+	{
+		delete& pegs;
+		delete moveCollection;
+		throw;
+	}
 
 	N* heightsToBuild = new N[pegCount - 2];
 	N tempDisk = diskCount - 1;
@@ -155,29 +178,49 @@ template <typename N, typename T> void Calculate4PlusPeg(T pegCount, N diskCount
 			return endPeg;
 	};
 
+
 	std::vector<std::future<void>>* buildMoveTasks = new std::vector<std::future<void>>();
-	size_t tempBase = 0;
-	for (T i = 0; i < pegs.Count() - 2; i++)
+	try
 	{
-		if (heightsToBuild[i] != 0)
+		size_t tempBase = 0;
+		for (T i = 0; i < pegs.Count() - 2; i++)
 		{
-			Pegs<T>& pegArray = GetPegArray();
-			T end = GetEndPeg(pegArray);
-			T internPegCount = pegs.Count() - i;
-			size_t internMoveCount = CalculateMoveCount(internPegCount, heightsToBuild[i]);					//Overflow add test 
-			MoveCollection<T>* internMoveCollection = moveCollection->GetSubSegment(tempBase, internMoveCount);
-			buildMoveTasks->push_back(CalculateMoveSequenceAsync<N, T>(internPegCount, heightsToBuild[i], pegArray, 0, end, internMoveCollection, internMoveCount));
-			tempBase += internMoveCount;
+			if (heightsToBuild[i] != 0)
+			{
+				Pegs<T>& pegArray = GetPegArray();
+				T end = GetEndPeg(pegArray);
+				T internPegCount = pegs.Count() - i;
+				size_t internMoveCount = CalculateMoveCount(internPegCount, heightsToBuild[i]);					//Overflow add test 
+				MoveCollection<T>* internMoveCollection = moveCollection->GetSubSegment(tempBase, internMoveCount);
+				buildMoveTasks->push_back(CalculateMoveSequenceAsync<N, T>(internPegCount, heightsToBuild[i], pegArray, 0, end, internMoveCollection, internMoveCount));
+				tempBase += internMoveCount;
+			}
 		}
 	}
+	catch (const std::exception & exception)
+	{
+		delete buildMoveTasks;
+		delete alreadyUsed;
+		delete[] heightsToBuild;
+		throw exception;
+	}
+
 
 	delete[] heightsToBuild;
 	delete alreadyUsed;
 	delete& pegs;
 
-
-	for (auto&& item : *buildMoveTasks)
-		item.wait();
+	try
+	{
+		for (auto&& item : *buildMoveTasks)
+			item.get();
+	}
+	catch (const std::exception & exception)
+	{
+		delete buildMoveTasks;
+		delete moveCollection;
+		throw exception;
+	}
 	delete buildMoveTasks;
 
 	moveCollection->Add(startPeg, endPeg);

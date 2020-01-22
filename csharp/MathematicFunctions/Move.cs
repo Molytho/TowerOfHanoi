@@ -41,14 +41,36 @@ namespace Molytho.TowerOfHanoi
         #endregion
     }
 
-    public abstract class MoveCollectionBase
+    public abstract class ReadOnlyMoveCollection
     {
-        public MoveCollectionBase(int capacity, int baseAddress)
+        public ReadOnlyMoveCollection(int capacity, int baseAddress)
         {
             _capacity = capacity;
             _count = 0;
             _baseAddress = baseAddress;
         }
+
+        protected internal Move[] moves;
+        protected internal int _count;
+        protected internal int _capacity;
+        protected internal readonly int _baseAddress;
+
+        public Move this[int index]
+        {
+            get
+            {
+                if(index >= _count || index < 0)
+                    throw new IndexOutOfRangeException();
+
+                return moves[index + _baseAddress];
+            }
+        }
+
+        public int Count => _count;
+    }
+    public abstract class MoveCollectionBase : ReadOnlyMoveCollection
+    {
+        public MoveCollectionBase(int capacity, int baseAddress) : base(capacity, baseAddress) { }
 
         protected abstract void Resize();
 
@@ -78,22 +100,14 @@ namespace Molytho.TowerOfHanoi
             _count += collection.Count;
         }
 
-
-        protected internal Move[] moves;
-        protected internal int _count;
-        protected internal int _capacity;
-        protected internal readonly int _baseAddress;
-
-        public int Count => _count;
-
-        public Move this[int index]
+        new public ref Move this[int index]
         {
             get
             {
                 if(index >= _count || index < 0)
                     throw new IndexOutOfRangeException();
 
-                return moves[index + _baseAddress];
+                return ref moves[index + _baseAddress];
             }
         }
 
@@ -192,6 +206,10 @@ namespace Molytho.TowerOfHanoi
         {
             _capacity *= 2;
             Array.Resize(ref moves, _capacity);
+        }
+        public void RemoveLast()
+        {
+            _count--;
         }
     }
     public class MoveCollectionSegment : MoveCollectionBase

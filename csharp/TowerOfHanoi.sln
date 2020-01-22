@@ -9,6 +9,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MathematicFunctions", "Math
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestConsole", "TestConsole\TestConsole.csproj", "{0ADD88DE-33A5-4AD8-9008-2B820EDBA651}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Game", "Game\Game.csproj", "{038057B5-4F0D-4441-B7B5-24BB521AAB25}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -41,6 +43,14 @@ Global
 		{0ADD88DE-33A5-4AD8-9008-2B820EDBA651}.Release|Any CPU.Build.0 = Release|Any CPU
 		{0ADD88DE-33A5-4AD8-9008-2B820EDBA651}.Release|x64.ActiveCfg = Release|x64
 		{0ADD88DE-33A5-4AD8-9008-2B820EDBA651}.Release|x64.Build.0 = Release|x64
+		{038057B5-4F0D-4441-B7B5-24BB521AAB25}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{038057B5-4F0D-4441-B7B5-24BB521AAB25}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{038057B5-4F0D-4441-B7B5-24BB521AAB25}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{038057B5-4F0D-4441-B7B5-24BB521AAB25}.Debug|x64.Build.0 = Debug|Any CPU
+		{038057B5-4F0D-4441-B7B5-24BB521AAB25}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{038057B5-4F0D-4441-B7B5-24BB521AAB25}.Release|Any CPU.Build.0 = Release|Any CPU
+		{038057B5-4F0D-4441-B7B5-24BB521AAB25}.Release|x64.ActiveCfg = Release|Any CPU
+		{038057B5-4F0D-4441-B7B5-24BB521AAB25}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

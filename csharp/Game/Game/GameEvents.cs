@@ -8,5 +8,8 @@ namespace Molytho.TowerOfHanoi
     {
         public event Action<Move> DiskMoved;
         public event Action<Move> DiskMoveReversed;
+
+        public event Action<Move> MoveAdded;
+        public event Action<Move> MoveTakenBack;
     }
 }

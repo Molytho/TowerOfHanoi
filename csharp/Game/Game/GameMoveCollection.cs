@@ -18,11 +18,11 @@ namespace Molytho.TowerOfHanoi
         public ReadOnlyMoveCollection MoveList => _moveCollection;
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private void AddMove(ushort startPeg, ushort endPeg)
+        private void AddMoveToCollection(ushort startPeg, ushort endPeg)
         {
             _moveCollection.Add(startPeg, endPeg);
         }
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private Move RemoveLastMove() => _moveCollection.RemoveLast();
+        private Move RemoveLastMoveFromCollection() => _moveCollection.RemoveLast();
     }
 }

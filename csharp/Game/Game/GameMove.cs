@@ -7,18 +7,36 @@ namespace Molytho.TowerOfHanoi
     public partial class TowerOfHanoiGame
     {
         private readonly Game.TowerOfHanoiConfiguration _configuration;
+        private int _currentMove = 0;
 
-        public void MoveDisk(ushort startPeg, ushort endPeg)
+        public void AddMove(ushort startPeg, ushort endPeg)
         {
             AddMove(startPeg, endPeg);
-            _configuration.ApplyMove(startPeg, endPeg);
-            DiskMoved?.Invoke(_moveCollection[_moveCollection.Count]);
+            MoveAdded?.Invoke(_moveCollection[_moveCollection.Count]);
         }
-        public void MoveDiskBackward()
+        public void TakeBackMove()
         {
-            Move move = RemoveLastMove();
-            _configuration.ApplyMoveBackward(move);
-            DiskMoveReversed?.Invoke(move);
+            Move move = RemoveLastMoveFromCollection();
+            MoveTakenBack?.Invoke(move);
+        }
+
+        public void NextMove()
+        {
+            if(_currentMove < _moveCollection.Count)
+            {
+                Move move = _moveCollection[_currentMove++];
+                _configuration.ApplyMove(move);
+                DiskMoved?.Invoke(move);
+            }
+        }
+        public void LastMove()
+        {
+            if(_currentMove > 0 && _currentMove < _moveCollection.Count)
+            {
+                Move move = _moveCollection[_currentMove--];
+                _configuration.ApplyMoveBackward(move);
+                DiskMoveReversed?.Invoke(move);
+            }
         }
 
         public uint[] DisksOnPeg(ushort peg) => _configuration[peg];

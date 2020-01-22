@@ -207,9 +207,10 @@ namespace Molytho.TowerOfHanoi
             _capacity *= 2;
             Array.Resize(ref moves, _capacity);
         }
-        public void RemoveLast()
+        public Move RemoveLast()
         {
             _count--;
+            return moves[_count + 1];
         }
     }
     public class MoveCollectionSegment : MoveCollectionBase

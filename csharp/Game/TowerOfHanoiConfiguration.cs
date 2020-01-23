@@ -36,7 +36,7 @@ namespace Molytho.TowerOfHanoi.Game
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool VerifyMove(Move move)
         {
-            return pegs[move.StartPeg].TopDiskSize > pegs[move.EndPeg].TopDiskSize;
+            return pegs[move.EndPeg].TopDiskSize == 0 || pegs[move.StartPeg].TopDiskSize < pegs[move.EndPeg].TopDiskSize;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -53,7 +53,7 @@ namespace Molytho.TowerOfHanoi.Game
             if(!VerifyMove(move))
                 throw new ArgumentException("peg bigger than top of other");
 
-            pegs[move.StartPeg].TopDisk = pegs[move.EndPeg].TopDisk;
+            pegs[move.EndPeg].TopDisk = pegs[move.StartPeg].TopDisk;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -81,7 +81,7 @@ namespace Molytho.TowerOfHanoi.Game
             if(!VerifyMoveBackward(move))
                 throw new ArgumentException("peg bigger than top of other");
 
-            pegs[move.EndPeg].TopDisk = pegs[move.StartPeg].TopDisk;
+            pegs[move.StartPeg].TopDisk = pegs[move.EndPeg].TopDisk;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -100,7 +100,7 @@ namespace Molytho.TowerOfHanoi.Game
             Disk?[] disks = new Disk?[diskCount];
             for(uint i = 0; i < diskCount; i++)
             {
-                disks[i] = new Disk(diskCount - 1 - i);
+                disks[i] = new Disk(diskCount - i);
             }
             return new Peg(disks);
         }
@@ -124,7 +124,7 @@ namespace Molytho.TowerOfHanoi.Game
             get
             {
                 Disk disk = Disks[DiskCount - 1].Value;
-                Disks[DiskCount-- - 1] = null;
+                Disks[--DiskCount] = null;
 
                 return disk;
             }

@@ -1,4 +1,6 @@
-﻿using System;
+﻿#define Game
+
+using System;
 using System.IO;
 using System.Threading;
 
@@ -8,6 +10,7 @@ namespace TestConsole
     {
         static void Main()
         {
+#if MoveSequence
             System.Diagnostics.Stopwatch stopwatch = new System.Diagnostics.Stopwatch();
 
             int n, k;
@@ -39,6 +42,19 @@ namespace TestConsole
             //    using StreamWriter streamWriter = new StreamWriter(fileStream);
             //    streamWriter.Write(i.Result.ToString());
             //}
+#elif Game
+            Molytho.TowerOfHanoi.TowerOfHanoiGame game = new Molytho.TowerOfHanoi.TowerOfHanoiGame(5, 4);
+            game.DiskMoved += move =>
+            {
+                Console.WriteLine(move.ToString() + "done");
+            };
+            game.MoveAdded += move =>
+            {
+                Console.WriteLine(move.ToString() + "added");
+            };
+            game.AddMove(0, 1);
+#endif
+
 
             Console.ReadKey();
         }

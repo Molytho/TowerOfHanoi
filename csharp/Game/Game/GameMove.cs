@@ -12,8 +12,8 @@ namespace Molytho.TowerOfHanoi
 
         public void AddMove(ushort startPeg, ushort endPeg)
         {
-            AddMove(startPeg, endPeg);
-            MoveAdded?.Invoke(_moveCollection[_moveCollection.Count]);
+            AddMoveToCollection(startPeg, endPeg);
+            MoveAdded?.Invoke(_moveCollection[_moveCollection.Count-1]);
 
             if(_autoMove && _currentMove + 1 == _moveCollection.Count)
                 NextMove();

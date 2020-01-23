@@ -36,7 +36,6 @@ namespace Molytho.TowerOfHanoi
             ? Calculate3PegAsync(diskCount, pegs, startPeg, endPeg, token, moveCollection)
             : Calculate4PlusPegAsync(pegCount, diskCount, pegs, startPeg, endPeg, token, moveCollection, moveCount);
 
-        private static Task<int[,]> GetTowerHeightsAsync(int pegCount, int increment, CancellationToken token) => Task.Run(() => GetTowerHeights(pegCount, increment), token);
         private static int[,] GetTowerHeights(int pegCount, int increment)
         {
             int[,] ret = new int[2, pegCount - 1];
@@ -77,10 +76,7 @@ namespace Molytho.TowerOfHanoi
         }
         private static async Task Calculate4PlusPegAsync(int pegCount, int diskCount, int[] pegs, int startPeg, int endPeg, CancellationToken token, MoveCollectionBase moveCollection, int moveCount)
         {
-            var towerHeightTask = GetTowerHeightsAsync(pegCount, (int)MathematicFunctions.Increment((ulong)pegCount, (ulong)diskCount), token);
-
-            var towerHeights = await towerHeightTask;
-            towerHeightTask = null;
+            var towerHeights = GetTowerHeights(pegCount, (int)MathematicFunctions.Increment((ulong)pegCount, (ulong)diskCount));
 
             int[] heightsToBuild = new int[pegCount - 2];
             int tempDisk = diskCount - 1;
@@ -105,42 +101,39 @@ namespace Molytho.TowerOfHanoi
             }
             towerHeights = null;
 
-            List<int> AlreadyUsed = new List<int>();
-            short EndPegSum = 0;
-            Func<int[]> GetPegArray = () =>
+            List<int> alreadyUsed = new List<int>();
+            int[] GetPegArray()
             {
-                System.Collections.Generic.List<int> ret = (pegs.Clone() as int[]).ToList();
-                AlreadyUsed.ForEach((b) => ret.Remove(b));
-                ret.Sort((c, d) => c.CompareTo(d));
-                return ret.ToArray();
-            };
-            Func<int> GetEndPeg = () =>
+                int count = 0;
+                int[] ret = new int[pegCount - alreadyUsed.Count];
+                for(int i = 0; i < pegCount; i++)
+                {
+                    if(!alreadyUsed.Contains(pegs[i]))
+                        ret[count++] = pegs[i];
+                }
+                return ret;
+            }
+            int GetEndPeg(int[] towerPegs)
             {
-                if(AlreadyUsed.Count != pegs.Length - 2)
-                {
-                    int i = AlreadyUsed.Count + EndPegSum;
-                    if(pegs[pegs.Length - 1 - i] == endPeg)
-                    {
-                        EndPegSum = 1;
-                        i = AlreadyUsed.Count + EndPegSum;
-                    }
-                    AlreadyUsed.Add(pegs[pegs.Length - i - 1]);
-                    return pegs[pegs.Length - i - 1];
-                }
-                else
-                {
-                    return endPeg;
-                }
-            };
+                return
+                    alreadyUsed.Count != pegs.Length - 2
+                        ? towerPegs[0] != endPeg && towerPegs[0] != startPeg
+                            ? towerPegs[0]
+                            : towerPegs[1] != endPeg && towerPegs[1] != startPeg
+                                ? towerPegs[1]
+                                : towerPegs[2]
+                        : endPeg;
+
+            }
 
             var buildMoveTasks = new List<Task>();
             int tempBase = 0;
             for(int i = 0; i < pegs.Length - 2; i++)
             {
-                var pegArray = GetPegArray();
-                var end = GetEndPeg();
                 if(heightsToBuild[i] != 0)
                 {
+                    var pegArray = GetPegArray();
+                    var end = GetEndPeg(pegArray);
                     var internPegCount = pegArray.Length;
                     var internMoveCount = (int)MathematicFunctions.MoveCount((ulong)internPegCount, (ulong)heightsToBuild[i]);
                     var collection = new MoveCollectionSegment(moveCollection, tempBase, internMoveCount);

@@ -6,7 +6,7 @@ namespace Molytho.TowerOfHanoi
 {
     public partial class TowerOfHanoiGame
     {
-        public TowerOfHanoiGame(uint diskCount, ushort pegCount)
+        public TowerOfHanoiGame(uint diskCount, ushort pegCount, bool autoMove = true)
         {
             _moveCount = MathematicFunctions.MoveCount(pegCount, diskCount);
             _moveCollection = new MoveCollection((int)(_moveCount * 1.5));
@@ -14,6 +14,8 @@ namespace Molytho.TowerOfHanoi
             _pegCount = pegCount;
 
             _configuration = new Game.TowerOfHanoiConfiguration(diskCount, pegCount);
+
+            _autoMove = autoMove;
         }
     }
 }

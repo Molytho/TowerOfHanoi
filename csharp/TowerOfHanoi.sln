@@ -9,7 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MathematicFunctions", "Math
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestConsole", "TestConsole\TestConsole.csproj", "{0ADD88DE-33A5-4AD8-9008-2B820EDBA651}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Game", "Game\Game.csproj", "{038057B5-4F0D-4441-B7B5-24BB521AAB25}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Game", "Game\Game.csproj", "{038057B5-4F0D-4441-B7B5-24BB521AAB25}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GraphModel", "GraphModel\GraphModel.csproj", "{1019DAB0-339A-40CD-A418-6CF51E65601A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -51,6 +53,14 @@ Global
 		{038057B5-4F0D-4441-B7B5-24BB521AAB25}.Release|Any CPU.Build.0 = Release|Any CPU
 		{038057B5-4F0D-4441-B7B5-24BB521AAB25}.Release|x64.ActiveCfg = Release|Any CPU
 		{038057B5-4F0D-4441-B7B5-24BB521AAB25}.Release|x64.Build.0 = Release|Any CPU
+		{1019DAB0-339A-40CD-A418-6CF51E65601A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1019DAB0-339A-40CD-A418-6CF51E65601A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1019DAB0-339A-40CD-A418-6CF51E65601A}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{1019DAB0-339A-40CD-A418-6CF51E65601A}.Debug|x64.Build.0 = Debug|Any CPU
+		{1019DAB0-339A-40CD-A418-6CF51E65601A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1019DAB0-339A-40CD-A418-6CF51E65601A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1019DAB0-339A-40CD-A418-6CF51E65601A}.Release|x64.ActiveCfg = Release|Any CPU
+		{1019DAB0-339A-40CD-A418-6CF51E65601A}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

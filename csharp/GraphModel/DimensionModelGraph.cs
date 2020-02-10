@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using System.Text;
 
 namespace Molytho.TowerOfHanoi
@@ -48,6 +49,7 @@ namespace Molytho.TowerOfHanoi
             }
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal int GetPointIndex(ushort[] coords)
         {
             if(coords.Length != _weights.Length)

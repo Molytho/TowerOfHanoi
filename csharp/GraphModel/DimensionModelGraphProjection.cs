@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Linq;
+using System.Runtime.CompilerServices;
 
 namespace Molytho.TowerOfHanoi
 {
@@ -20,7 +21,10 @@ namespace Molytho.TowerOfHanoi
                 _dimensionGraph[coords] = value;
             }
         }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public List<ushort[]> GetNeighbours(ushort[] coords) => _dimensionNeightbours.GetNeighbours(coords);
+
         public DimensionModelGraphProjection(ushort pegCount, ushort diskCount)
         {
             _dimensionGraph = new DimensionModelGraph<T>(pegCount, diskCount);

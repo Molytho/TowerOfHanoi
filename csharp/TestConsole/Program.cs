@@ -1,4 +1,4 @@
-﻿#define Game
+﻿#define DimensionModelGraph
 
 using System;
 using System.IO;
@@ -53,6 +53,9 @@ namespace TestConsole
                 Console.WriteLine(move.ToString() + "added");
             };
             game.AddMove(0, 1);
+#elif DimensionModelGraph
+            Molytho.TowerOfHanoi.DimensionModelGraphProjection<object> test = new Molytho.TowerOfHanoi.DimensionModelGraphProjection<object>(4, 3);
+            var i = test.GetNeighbours(new ushort[] { 1, 0, 0 });
 #endif
 
 

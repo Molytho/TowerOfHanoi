@@ -19,6 +19,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Game\Game.csproj" />
+    <ProjectReference Include="..\GraphModel\GraphModel.csproj" />
     <ProjectReference Include="..\MoveCalculation\MoveCalculation.csproj" />
   </ItemGroup>
 

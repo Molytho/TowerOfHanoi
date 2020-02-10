@@ -7,14 +7,14 @@ namespace Molytho.TowerOfHanoi
 {
     class DimensionModelPointTranslator
     {
-        private readonly ushort[] _weights;
+        private readonly int[] _weights;
 
         public DimensionModelPointTranslator(ushort diskCount, ushort pegCount)
         {
-            _weights = new ushort[diskCount];
+            _weights = new int[diskCount];
             _weights[0] = 1;
-            for(ushort i = 1; i < diskCount; i++)
-                _weights[i] = (ushort)(_weights[i - 1] * pegCount);
+            for(int i = 1; i < diskCount; i++)
+                _weights[i] = _weights[i - 1] * pegCount;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

@@ -6,7 +6,7 @@ using Molytho.TowerOfHanoi;
 
 namespace Molytho.TowerOfHanoi
 {
-    class DijkstraAlgorithm
+    public class DijkstraAlgorithm
     {
         public ushort DiskCount { get; }
         public ushort PegCount { get; }

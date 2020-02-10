@@ -4,9 +4,9 @@ using System.Text;
 
 namespace Molytho.TowerOfHanoi
 {
-    struct DijkstraData
+    public struct DijkstraData
     {
-        public DijkstraData(ushort[] previousPoint, uint depth)
+        internal DijkstraData(ushort[] previousPoint, uint depth)
         {
             PreviousPoint = previousPoint;
             Depth = depth;

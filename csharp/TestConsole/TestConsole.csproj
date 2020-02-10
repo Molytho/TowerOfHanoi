@@ -18,6 +18,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Dijkstra\Dijkstra.csproj" />
     <ProjectReference Include="..\Game\Game.csproj" />
     <ProjectReference Include="..\GraphModel\GraphModel.csproj" />
     <ProjectReference Include="..\MoveCalculation\MoveCalculation.csproj" />

@@ -1,4 +1,4 @@
-﻿#define DimensionModelGraph
+﻿#define Dijkstra
 
 using System;
 using System.IO;
@@ -56,6 +56,17 @@ namespace TestConsole
 #elif DimensionModelGraph
             Molytho.TowerOfHanoi.DimensionModelGraphProjection<object> test = new Molytho.TowerOfHanoi.DimensionModelGraphProjection<object>(3, 4);
             var i = test.GetNeighbours(new ushort[] { 1, 0, 0 });
+#elif Dijkstra
+            ushort diskCount = 6;
+            ushort pegCount = 4;
+            ushort[] startPoint = new ushort[diskCount];
+            ushort[] endPoint = new ushort[diskCount];
+            for(ushort i = 0; i < diskCount; i++)
+                endPoint[i] = (ushort)(pegCount - 1);
+            Molytho.TowerOfHanoi.DijkstraAlgorithm test = new Molytho.TowerOfHanoi.DijkstraAlgorithm(diskCount, pegCount, startPoint);
+            test.CalculateAsync((uint)Molytho.TowerOfHanoi.MathematicFunctions.MoveCount(pegCount, diskCount)).GetAwaiter().GetResult();
+
+            var result = test.Graph[endPoint];
 #endif
 
 

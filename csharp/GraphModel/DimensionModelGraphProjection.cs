@@ -8,8 +8,9 @@ namespace Molytho.TowerOfHanoi
 {
     public class DimensionModelGraphProjection<T>
     {
+        private readonly DimensionModelPointTranslator _pointTranslator;
         private readonly DimensionModelGraph<T> _dimensionGraph;
-        private readonly DimensionModelGraphPointNeighbours _dimensionNeightbours;
+        private readonly DimensionModelGraphPointNeighbours _dimensionNeighbours;
         public T this[ushort[] coords]
         {
             get
@@ -23,24 +24,25 @@ namespace Molytho.TowerOfHanoi
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public List<ushort[]> GetNeighbours(ushort[] coords) => _dimensionNeightbours.GetNeighbours(coords);
+        public List<ushort[]> GetNeighbours(ushort[] coords) => _dimensionNeighbours.GetNeighbours(coords);
 
         public DimensionModelGraphProjection(ushort pegCount, ushort diskCount)
         {
-            _dimensionGraph = new DimensionModelGraph<T>(pegCount, diskCount);
-            _dimensionNeightbours = new DimensionModelGraphPointNeighbours(_dimensionGraph.Count, _dimensionGraph.Lenght, _dimensionGraph.Dimension, _dimensionGraph.GetPointIndex);
+            _pointTranslator = new DimensionModelPointTranslator(pegCount, diskCount);
+            _dimensionGraph = new DimensionModelGraph<T>(pegCount, diskCount, _pointTranslator);
+            _dimensionNeighbours = new DimensionModelGraphPointNeighbours(_dimensionGraph.Count, _dimensionGraph.Lenght, _dimensionGraph.Dimension, _pointTranslator);
         }
     }
     class DimensionModelGraphPointNeighbours
     {
         private readonly ushort _lenght;
         private readonly ushort _dimension;
-        public DimensionModelGraphPointNeighbours(int size, ushort lenght, ushort dimension, Func<ushort[],int> indexFunction)
+        public DimensionModelGraphPointNeighbours(int size, ushort lenght, ushort dimension, DimensionModelPointTranslator pointTranslator)
         {
             _directionCache = new List<ushort>[size];
             _lenght = lenght;
             _dimension = dimension;
-            _indexFunction = indexFunction;
+            _pointTranslator = pointTranslator;
         }
         public List<ushort[]> GetNeighbours(ushort[] coords)
         {
@@ -64,11 +66,11 @@ namespace Molytho.TowerOfHanoi
             return ret;
         }
 
-        private readonly Func<ushort[], int> _indexFunction;
+        private readonly DimensionModelPointTranslator _pointTranslator;
         private readonly List<ushort>[] _directionCache;
         private bool IsPointDimAllowed(ushort dimension, ushort[] coords)
         {
-            int index = _indexFunction(coords);
+            int index = _pointTranslator.GetPointIndex(coords);
             _directionCache[index] ??= GetPointDimAllowed(coords);
             List<ushort> pointDims = _directionCache[index];
 

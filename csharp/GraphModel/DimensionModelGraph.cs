@@ -7,21 +7,18 @@ namespace Molytho.TowerOfHanoi
 {
     class DimensionModelGraph<T>
     {
+        private readonly DimensionModelPointTranslator _pointTranslator;
         private readonly T[] _pointData;
-        private readonly ushort[] _weights;
         public ushort Dimension { get; }
         public ushort Lenght { get; }
         public int Count { get; }
 
-        public DimensionModelGraph(ushort pegCount, ushort diskCount)
+        public DimensionModelGraph(ushort pegCount, ushort diskCount, DimensionModelPointTranslator pointTranslator)
         {
             Count = CalculateSize(pegCount, diskCount);
             _pointData = new T[Count];
 
-            _weights = new ushort[diskCount];
-            _weights[0] = 1;
-            for(ushort i = 1; i < diskCount; i++)
-                _weights[i] = (ushort)(_weights[i - 1] * pegCount);
+            _pointTranslator = pointTranslator;
 
             Dimension = diskCount;
             Lenght = pegCount;
@@ -39,27 +36,14 @@ namespace Molytho.TowerOfHanoi
         {
             get
             {
-                int index = GetPointIndex(coords);
+                int index = _pointTranslator.GetPointIndex(coords);
                 return _pointData[index];
             }
             set
             {
-                int index = GetPointIndex(coords);
+                int index = _pointTranslator.GetPointIndex(coords);
                 _pointData[index] = value;
             }
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal int GetPointIndex(ushort[] coords)
-        {
-            if(coords.Length != _weights.Length)
-                throw new ArgumentException();
-            int ret = 0;
-            for(int i = 0; i < coords.Length; i++)
-            {
-                ret += coords[i] * _weights[i];
-            }
-            return ret;
         }
     }
 }

@@ -9,7 +9,7 @@ namespace Molytho.TowerOfHanoi
     {
         private readonly ushort[] _weights;
 
-        public DimensionModelPointTranslator(ushort pegCount, ushort diskCount)
+        public DimensionModelPointTranslator(ushort diskCount, ushort pegCount)
         {
             _weights = new ushort[diskCount];
             _weights[0] = 1;

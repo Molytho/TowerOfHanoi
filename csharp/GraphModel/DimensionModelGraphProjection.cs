@@ -26,10 +26,10 @@ namespace Molytho.TowerOfHanoi
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public List<ushort[]> GetNeighbours(ushort[] coords) => _dimensionNeighbours.GetNeighbours(coords);
 
-        public DimensionModelGraphProjection(ushort pegCount, ushort diskCount)
+        public DimensionModelGraphProjection(ushort diskCount, ushort pegCount)
         {
-            _pointTranslator = new DimensionModelPointTranslator(pegCount, diskCount);
-            _dimensionGraph = new DimensionModelGraph<T>(pegCount, diskCount, _pointTranslator);
+            _pointTranslator = new DimensionModelPointTranslator(diskCount, pegCount);
+            _dimensionGraph = new DimensionModelGraph<T>(diskCount, pegCount, _pointTranslator);
             _dimensionNeighbours = new DimensionModelGraphPointNeighbours(_dimensionGraph.Count, _dimensionGraph.Lenght, _dimensionGraph.Dimension, _pointTranslator);
         }
     }

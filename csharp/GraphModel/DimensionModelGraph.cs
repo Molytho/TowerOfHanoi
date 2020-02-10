@@ -13,7 +13,7 @@ namespace Molytho.TowerOfHanoi
         public ushort Lenght { get; }
         public int Count { get; }
 
-        public DimensionModelGraph(ushort pegCount, ushort diskCount, DimensionModelPointTranslator pointTranslator)
+        public DimensionModelGraph(ushort diskCount, ushort pegCount, DimensionModelPointTranslator pointTranslator)
         {
             Count = CalculateSize(pegCount, diskCount);
             _pointData = new T[Count];

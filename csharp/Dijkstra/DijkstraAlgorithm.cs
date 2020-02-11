@@ -18,8 +18,9 @@ namespace Molytho.TowerOfHanoi
         {
             PegCount = pegCount;
             DiskCount = diskCount;
-            Graph = new DimensionModelGraphProjection<DijkstraData>(diskCount, pegCount);
             _startPoint = startPoint;
+
+            Graph = new DimensionModelGraphProjection<DijkstraData>(diskCount, pegCount);
         }
         public Task CalculateAsync(uint breakCondition)
         {

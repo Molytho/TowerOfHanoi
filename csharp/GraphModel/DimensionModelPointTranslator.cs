@@ -9,12 +9,12 @@ namespace Molytho.TowerOfHanoi
     {
         private readonly uint[] _weights;
 
-        public DimensionModelPointTranslator(ushort diskCount, ushort pegCount)
+        public DimensionModelPointTranslator(ushort dimension, ushort length)
         {
-            _weights = new uint[diskCount];
+            _weights = new uint[dimension];
             _weights[0] = 1;
-            for(uint i = 1; i < diskCount; i++)
-                _weights[i] = _weights[i - 1] * pegCount;
+            for(uint i = 1; i < dimension; i++)
+                _weights[i] = _weights[i - 1] * length;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -22,6 +22,7 @@ namespace Molytho.TowerOfHanoi
         {
             if(coords.Length != _weights.Length)
                 throw new ArgumentException();
+
             uint ret = 0;
             for(int i = 0; i < coords.Length; i++)
             {

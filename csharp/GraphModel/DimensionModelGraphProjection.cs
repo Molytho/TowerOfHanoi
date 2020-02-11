@@ -37,7 +37,7 @@ namespace Molytho.TowerOfHanoi
     {
         private readonly ushort _lenght;
         private readonly ushort _dimension;
-        public DimensionModelGraphPointNeighbours(int size, ushort lenght, ushort dimension, DimensionModelPointTranslator pointTranslator)
+        public DimensionModelGraphPointNeighbours(uint size, ushort lenght, ushort dimension, DimensionModelPointTranslator pointTranslator)
         {
             _directionCache = new List<ushort>[size];
             _lenght = lenght;
@@ -70,7 +70,7 @@ namespace Molytho.TowerOfHanoi
         private readonly List<ushort>[] _directionCache;
         private bool IsPointDimAllowed(ushort dimension, ushort[] coords)
         {
-            int index = _pointTranslator.GetPointIndex(coords);
+            uint index = _pointTranslator.GetPointIndex(coords);
             _directionCache[index] ??= GetPointDimAllowed(coords);
             List<ushort> pointDims = _directionCache[index];
 

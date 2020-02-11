@@ -11,7 +11,7 @@ namespace Molytho.TowerOfHanoi
         private readonly T[] _pointData;
         public ushort Dimension { get; }
         public ushort Lenght { get; }
-        public int Count { get; }
+        public uint Count { get; }
 
         public DimensionModelGraph(ushort diskCount, ushort pegCount, DimensionModelPointTranslator pointTranslator)
         {
@@ -24,9 +24,9 @@ namespace Molytho.TowerOfHanoi
             Lenght = pegCount;
         }
 
-        private int CalculateSize(ushort a, ushort b)
+        private uint CalculateSize(ushort a, ushort b)
         {
-            int ret = 1;
+            uint ret = 1;
             for(; b > 0; b--)
                 ret *= a;
             return ret;
@@ -36,12 +36,12 @@ namespace Molytho.TowerOfHanoi
         {
             get
             {
-                int index = _pointTranslator.GetPointIndex(coords);
+                uint index = _pointTranslator.GetPointIndex(coords);
                 return _pointData[index];
             }
             set
             {
-                int index = _pointTranslator.GetPointIndex(coords);
+                uint index = _pointTranslator.GetPointIndex(coords);
                 _pointData[index] = value;
             }
         }

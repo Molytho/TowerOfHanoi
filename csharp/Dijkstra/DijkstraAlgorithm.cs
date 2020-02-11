@@ -39,9 +39,8 @@ namespace Molytho.TowerOfHanoi
             for(int i = 0; i < neighbourList.Count; i++)
             {
                 ushort[] neighbour = neighbourList[i];
-                uint neighbourDepth = Graph[neighbour].Depth;
-                var neighbourPoint = Graph[neighbour].PreviousPoint;
-                if(neighbourPoint is null || neighbourDepth > depth)
+                DijkstraData neighbourStruct = Graph[neighbour];
+                if(neighbourStruct.PreviousPoint is null || neighbourStruct.Depth > depth)
                 {
                     Graph[neighbour] = new DijkstraData(point, depth);
                     tasks.Add(CalculateAsync(neighbour, breakCondition, depth + 1));

@@ -20,6 +20,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\MathematicFunctions\MathematicFunctions.csproj" />
+    <ProjectReference Include="..\GameModels\GameModels.csproj" />
   </ItemGroup>
 
 </Project>

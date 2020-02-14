@@ -7,7 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\GameModels\GameModels.csproj" />
     <ProjectReference Include="..\MathematicFunctions\MathematicFunctions.csproj" />
   </ItemGroup>
 

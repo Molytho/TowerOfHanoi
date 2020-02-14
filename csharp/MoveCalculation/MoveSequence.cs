@@ -115,15 +115,15 @@ namespace Molytho.TowerOfHanoi
             }
             int GetEndPeg(int[] towerPegs)
             {
-                return
-                    alreadyUsed.Count != pegs.Length - 2
+                int peg = alreadyUsed.Count != pegs.Length - 2
                         ? towerPegs[0] != endPeg && towerPegs[0] != startPeg
                             ? towerPegs[0]
                             : towerPegs[1] != endPeg && towerPegs[1] != startPeg
                                 ? towerPegs[1]
                                 : towerPegs[2]
                         : endPeg;
-
+                alreadyUsed.Add(peg);
+                return peg;
             }
 
             var buildMoveTasks = new List<Task>();

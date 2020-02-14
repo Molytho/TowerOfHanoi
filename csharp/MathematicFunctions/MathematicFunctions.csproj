@@ -4,6 +4,7 @@
     <TargetFramework>netstandard2.1</TargetFramework>
     <RootNamespace>Molytho.TowerOfHanoi</RootNamespace>
     <Platforms>AnyCPU;x64</Platforms>
+    <AssemblyName>libMolythoTowerOfHanoiMathematicFunctions</AssemblyName>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">

@@ -3,13 +3,23 @@ using System.Text;
 
 namespace Molytho.TowerOfHanoi
 {
-    public abstract class MoveCollectionBase : ReadOnlyMoveCollection
+    public abstract class MoveCollectionBase
     {
-        public MoveCollectionBase(int capacity, int baseAddress) : base(capacity, baseAddress) { }
+        public MoveCollectionBase(int capacity, int baseAddress)
+        {
+            _capacity = capacity;
+            _count = 0;
+            _baseAddress = baseAddress;
+        }
+
+        protected internal Move[] moves;
+        protected internal int _count;
+        protected internal int _capacity;
+        protected internal readonly int _baseAddress;
 
         protected abstract void Resize();
 
-        public void Add(ref Move item)
+        public void Add(in Move item)
         {
             if(_count == _capacity)
                 Resize();
@@ -25,17 +35,17 @@ namespace Molytho.TowerOfHanoi
         }
         public void AddRange(MoveCollectionBase collection)
         {
-            if(collection.Count + this._count > _capacity)
+            if(collection._count + this._count > _capacity)
             {
-                Array.Resize(ref moves, _capacity + collection.Count);
+                Array.Resize(ref moves, _capacity + collection._count);
             }
 
             Array.ConstrainedCopy(collection.moves, _baseAddress, this.moves, this._count + this._baseAddress, collection._count);
 
-            _count += collection.Count;
+            _count += collection._count;
         }
 
-        new public ref Move this[int index]
+        public ref Move this[int index]
         {
             get
             {
@@ -45,6 +55,12 @@ namespace Molytho.TowerOfHanoi
                 return ref moves[index + _baseAddress];
             }
         }
+        public int Count => _count;
+
+        public static explicit operator ReadOnlyMoveCollection(MoveCollectionBase moveCollectionBase)
+        {
+            return new ReadOnlyMoveCollection(moveCollectionBase.moves, moveCollectionBase._count);
+        } 
 
         public MoveCollectionBase InverseMoves(int endPeg)
         {

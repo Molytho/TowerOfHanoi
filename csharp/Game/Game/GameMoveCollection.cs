@@ -15,7 +15,7 @@ namespace Molytho.TowerOfHanoi
         public uint DiskCount => _diskCount;
         public ushort PegCount => _pegCount;
         public ulong MoveCount => _moveCount;
-        public ReadOnlyMoveCollection MoveList => _moveCollection;
+        public ReadOnlyMoveCollection MoveList => (ReadOnlyMoveCollection)_moveCollection;
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private void AddMoveToCollection(ushort startPeg, ushort endPeg)

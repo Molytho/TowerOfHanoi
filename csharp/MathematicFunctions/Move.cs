@@ -5,14 +5,29 @@ using System.Text;
 
 namespace Molytho.TowerOfHanoi
 {
+    /// <summary>
+    /// Represents a move in the towers of hanoi game
+    /// </summary>
     public readonly struct Move : IEquatable<Move>
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Move"/> struct
+        /// </summary>
+        /// <param name="startPeg">The StartPeg of the move</param>
+        /// <param name="endPeg">The EndPeg of the move</param>
         public Move(int startPeg, int endPeg)
         {
             StartPeg = startPeg;
             EndPeg = endPeg;
         }
+
+        /// <summary>
+        /// Indicates the StartPeg of the move
+        /// </summary>
         public readonly int StartPeg { get; }
+        /// <summary>
+        /// Indicates the EndPeg of the move
+        /// </summary>
         public readonly int EndPeg { get; }
 
         #region object

@@ -22,33 +22,30 @@ namespace Molytho.TowerOfHanoi
 
             Graph = new DimensionModelGraphProjection<DijkstraData>(diskCount, pegCount);
         }
-        public Task CalculateAsync(uint breakCondition)
+
+        private Queue<ushort[]> pointQueue = new Queue<ushort[]>();
+
+        public void Calculate()
         {
             Graph[_startPoint] = new DijkstraData(new ushort[0], 0); //Workaround
-            return CalculateAsync(_startPoint, breakCondition, 1);
-        }
-
-        private async Task CalculateAsync(ushort[] point, uint breakCondition, uint depth)
-        {
-            if(breakCondition < depth)
-                return;
-
-            List<Task> tasks = new List<Task>();
-            var neighbourList = Graph.GetNeighbours(point);
-
-            for(int i = 0; i < neighbourList.Count; i++)
+            pointQueue.Enqueue(_startPoint);
+            
+            while(pointQueue.Count != 0)
             {
-                ushort[] neighbour = neighbourList[i];
-                DijkstraData neighbourStruct = Graph[neighbour];
-                if(neighbourStruct.PreviousPoint is null || neighbourStruct.Depth > depth)
+                var currentPoint = pointQueue.Dequeue();
+                var currentPointInfo = Graph[currentPoint];
+
+                var neighbours = Graph.GetNeighbours(currentPoint);
+                foreach(ushort[] neighbourPoint in neighbours)
                 {
-                    Graph[neighbour] = new DijkstraData(point, depth);
-                    tasks.Add(CalculateAsync(neighbour, breakCondition, depth + 1));
+                    var neighbourPointInfo = Graph[neighbourPoint];
+                    if(neighbourPointInfo.PreviousPoint == null || neighbourPointInfo.Depth > currentPointInfo.Depth + 1)
+                    {
+                        pointQueue.Enqueue(neighbourPoint);
+                        Graph[neighbourPoint] = new DijkstraData(currentPoint, currentPointInfo.Depth + 1);
+                    }
                 }
             }
-            neighbourList = null;
-
-            await Task.WhenAll(tasks);
         }
     }
 }

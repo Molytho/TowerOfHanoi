@@ -1,6 +1,7 @@
 ﻿#define Dijkstra
 
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Threading;
 
@@ -57,16 +58,24 @@ namespace TestConsole
             Molytho.TowerOfHanoi.DimensionModelGraphProjection<object> test = new Molytho.TowerOfHanoi.DimensionModelGraphProjection<object>(3, 4);
             var i = test.GetNeighbours(new ushort[] { 1, 0, 0 });
 #elif Dijkstra
-            ushort diskCount = 6;
-            ushort pegCount = 4;
-            ushort[] startPoint = new ushort[diskCount];
-            ushort[] endPoint = new ushort[diskCount];
-            for(ushort i = 0; i < diskCount; i++)
-                endPoint[i] = (ushort)(pegCount - 1);
-            Molytho.TowerOfHanoi.DijkstraAlgorithm test = new Molytho.TowerOfHanoi.DijkstraAlgorithm(diskCount, pegCount, startPoint);
-            test.CalculateAsync((uint)Molytho.TowerOfHanoi.MathematicFunctions.MoveCount(pegCount, diskCount)).GetAwaiter().GetResult();
+            const ushort pegCount = 4;
+            
+            System.Diagnostics.Stopwatch stopwatch = new System.Diagnostics.Stopwatch();
 
-            var result = test.Graph[endPoint];
+            for(ushort i = 1; i < 15; i++)
+            {
+                ushort[] startPoint = new ushort[i];
+                ushort[] endPoint = new ushort[i];
+                for(ushort j = 0; j < i; j++)
+                    endPoint[j] = pegCount - 1;
+                Molytho.TowerOfHanoi.DijkstraAlgorithm test = new Molytho.TowerOfHanoi.DijkstraAlgorithm(i, pegCount, startPoint);
+
+                stopwatch.Restart();
+                test.Calculate();
+                stopwatch.Stop();
+
+                Console.WriteLine($"Time elsapsed: {stopwatch.Elapsed}, i={i}, nodes={test.Graph.Count}");
+            }
 #endif
 
 

@@ -13,12 +13,15 @@
         /// <returns>Increment of the combination</returns>
         public static ulong Increment(ulong pegCount, ulong diskCount)
         {
+            //Exception Testing
             if(pegCount < 3)
                 throw new System.ArgumentException("pegCounts smaller than 3 are senseless", "pegCount");
             if(diskCount == 0)
                 return 0;
+            //Deklaration
             ulong increment = 0, temp = 1;
 
+            //Iterate through binomial coefficents to find the current increment
             while(diskCount > temp)
             {
                 increment++;
